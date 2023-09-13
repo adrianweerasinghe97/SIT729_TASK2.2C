@@ -1,0 +1,53 @@
+int celsius=0;
+int LM35Pin = A0;
+const int buzzer = 8;
+int red=9;
+int green=5;
+int blue=6;
+
+float temp;
+float temperature;
+
+void setup()
+{
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(A0, INPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  temp = analogRead(LM35Pin)*0.004882814;
+  temperature = (temp - 0.5) * 100.0;
+  Serial.print("Temperature C : "); 
+  Serial.println(temperature);
+  
+  if(temperature<16 )
+  {
+    digitalWrite(green,0);
+    digitalWrite(blue,255);
+    digitalWrite(red,0);
+    noTone(buzzer);
+  }
+  else if(temperature>=16 && temperature<=24)
+  {
+    digitalWrite(green,255);
+    digitalWrite(blue,0);
+    digitalWrite(red,0);
+    noTone(buzzer);
+  }
+     
+  else if(temperature>=35)
+  {
+    digitalWrite(green,0);
+    digitalWrite(blue,0);
+    digitalWrite(red,255);
+    //tone(buzzer, 1000);
+    tone(8, 440, 200);
+  }
+ 
+  delay(100);
+}
